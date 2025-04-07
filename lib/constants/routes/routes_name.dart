@@ -4,6 +4,7 @@ class RoutesName {
   static const String forgetPasswordScreen = '/forget-password';
   static const String setNewPasswordScreen = '/set-password';
   static const String homeScreen = '/home';
+  static const String homeDetailScreen = '/home/detail';
   static const String formScreen = '/form';
   static const String formTaskScreen = '/form/form-task';
   static const String formSubmittedTaskScreen = '/form/form-submitted-task';

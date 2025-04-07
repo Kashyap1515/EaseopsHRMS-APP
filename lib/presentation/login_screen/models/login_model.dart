@@ -9,6 +9,7 @@ class LoginModel {
   LoginModel({
     this.id,
     this.isStaff,
+    this.displayPicture,
     this.isVerified,
     this.password,
     this.createdAt,
@@ -23,6 +24,7 @@ class LoginModel {
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         id: (json['id'] ?? '') as String,
+        displayPicture: (json['display_picture'] ?? '') as String,
         isStaff: (json['is_staff'] ?? false) as bool,
         isVerified: (json['is_verified'] ?? false) as bool,
         password: (json['password'] ?? '') as String,
@@ -45,6 +47,7 @@ class LoginModel {
   String? password;
   DateTime? createdAt;
   bool? isActive;
+  String? displayPicture;
   String? name;
   bool? isSuperuser;
   dynamic lastLogin;
@@ -56,6 +59,7 @@ class LoginModel {
         'id': id,
         'is_staff': isStaff,
         'is_verified': isVerified,
+        'display_picture': displayPicture,
         'password': password,
         'created_at': createdAt?.toIso8601String(),
         'is_active': isActive,

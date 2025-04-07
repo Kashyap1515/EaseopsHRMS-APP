@@ -31,18 +31,27 @@ class _ProfileCardState extends State<ProfileCard> {
                   AppImages.appLogo,
                   color: AppColors.lightColor,
                 )
-              : Padding(
-                  padding: all16,
-                  child: FittedBox(
-                    child: CustomText(
-                      title: (GetStorageHelper.getUserData().name ?? '')
-                          .substring(0, 2)
-                          .toUpperCase(),
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.kcWhiteColor,
+              : GetStorageHelper.getUserData().displayPicture == null
+                  ? Padding(
+                      padding: all16,
+                      child: FittedBox(
+                        child: CustomText(
+                          title: (GetStorageHelper.getUserData().name ?? '')
+                              .substring(0, 2)
+                              .toUpperCase(),
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.kcWhiteColor,
+                        ),
+                      ),
+                    )
+                  : ClipOval(
+                      child: Image.network(
+                        GetStorageHelper.getUserData().displayPicture ?? '',
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                ),
         ),
         sbh10,
         CustomText(

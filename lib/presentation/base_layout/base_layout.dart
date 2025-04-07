@@ -98,11 +98,8 @@ class BaseLayout<T extends dynamic> extends StatelessWidget {
   // Method to build BottomNavigationBar items based on user role
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
     return [
-      if (GetStorageHelper.getProfileData()
-          .userAccountsDetails!
-          .first
-          .privileges!
-          .contains('Superuser'))
+      if (GetStorageHelper.getProfileData().email!.contains('admin') ||
+          GetStorageHelper.getProfileData().email!.contains('store'))
         buildNavItem(AppIcons.iconAttendanceIcon, 'Attendance', 0)
       else
         buildNavItem(AppIcons.iconHome, 'Home', 0),

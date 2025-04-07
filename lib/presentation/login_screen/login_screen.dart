@@ -24,12 +24,6 @@ class LoginScreen extends GetWidget<LoginController> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // CustomText(
-                      //   title: AppStrings.appName,
-                      //   fontSize: 36,
-                      //   fontWeight: FontWeight.w600,
-                      //   color: AppColors.primaryColor,
-                      // ),
                       SvgPicture.asset(
                         AppImages.appLogo,
                         width: Get.size.width / 1.5,

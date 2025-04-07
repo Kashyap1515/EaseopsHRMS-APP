@@ -20,7 +20,6 @@ export 'package:easeops_hrms/data/network/network_info.dart';
 export 'package:easeops_hrms/data/network/sqflite_services.dart';
 export 'package:easeops_hrms/data/response/api_response_status.dart';
 export 'package:easeops_hrms/data/rule_conversion/choice_rule_conversion.dart';
-export 'package:easeops_hrms/presentation/attendance_screens/attendance_screen.dart';
 export 'package:easeops_hrms/presentation/attendance_screens/bindings/attendance_bindings.dart';
 export 'package:easeops_hrms/presentation/attendance_screens/controller/attendance_controller.dart';
 export 'package:easeops_hrms/presentation/base_layout/base_layout.dart';

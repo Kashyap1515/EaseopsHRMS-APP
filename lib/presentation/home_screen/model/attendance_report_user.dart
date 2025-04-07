@@ -40,7 +40,7 @@ class AttendanceReportUserModel {
 
     int totalMinutes = attendanceList!
         .fold(0, (sum, item) => sum + (item.totalTimeSpentInMinutes ?? 0));
-    return _formatTime(totalMinutes);
+    return formatTime(totalMinutes);
   }
 
   String getAbsentHours({
@@ -55,7 +55,7 @@ class AttendanceReportUserModel {
     int presentDays = attendanceList?.length ?? 0;
     int absentMinutes = (totalWorkingDays - presentDays) * 8 * 60;
 
-    return _formatTime(absentMinutes);
+    return formatTime(absentMinutes);
   }
 
   int getTotalWorkingDays({
@@ -125,7 +125,7 @@ class AttendanceReportUserModel {
     }
   }
 
-  String _formatTime(int totalMinutes) {
+  String formatTime(int totalMinutes) {
     int hours = totalMinutes ~/ 60;
     int minutes = totalMinutes % 60;
 
@@ -210,21 +210,25 @@ class AttendanceList {
 
 class Location {
   String? id;
-  String? name;
+  String? alias;
+  String? location;
 
   Location({
     this.id,
-    this.name,
+    this.alias,
+    this.location,
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         id: json["id"],
-        name: json["name"],
+        alias: json["alias"],
+        location: json["location"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": name,
+        "alias": alias,
+        "location": location,
       };
 }
 

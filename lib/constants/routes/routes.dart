@@ -2,6 +2,7 @@ import 'package:easeops_hrms/app_export.dart';
 import 'package:easeops_hrms/presentation/attendance_screens/camera_screen.dart';
 import 'package:easeops_hrms/presentation/attendance_screens/punch_detail_screen.dart';
 import 'package:easeops_hrms/presentation/home_screen/binding/home_binding.dart';
+import 'package:easeops_hrms/presentation/home_screen/home_detail_screen.dart';
 import 'package:easeops_hrms/presentation/home_screen/home_screen.dart';
 import 'package:easeops_hrms/presentation/setting_screen/language_choice.dart';
 import 'package:easeops_hrms/presentation/setting_screen/location_choice.dart';
@@ -43,20 +44,20 @@ class AppPages {
           transition: Transition.noTransition,
         ),
         GetPage(
+          name: RoutesName.homeDetailScreen,
+          page: () => const HomeDetailScreen(),
+          bindings: [
+            HomeBinding(),
+          ],
+          middlewares: [AuthGuard()],
+          transition: Transition.noTransition,
+        ),
+        GetPage(
           name: RoutesName.setNewPasswordScreen,
           page: () => const SetPasswordScreen(),
           bindings: [
             SetPasswordBinding(),
           ],
-        ),
-        GetPage(
-          name: RoutesName.attendanceScreen,
-          page: () => const AttendanceScreen(),
-          bindings: [
-            AttendanceBindings(),
-          ],
-          middlewares: [AuthGuard()],
-          transition: Transition.noTransition,
         ),
         GetPage(
           name: RoutesName.punchDetailScreen,

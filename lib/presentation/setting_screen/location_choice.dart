@@ -100,10 +100,11 @@ class ChecklistLocation extends GetView<SettingController> {
                     callback: () async {
                       Get.find<RootController>().currentIndex.value = 0;
                       if (GetStorageHelper.getProfileData()
-                          .userAccountsDetails!
-                          .first
-                          .privileges!
-                          .contains('Superuser')) {
+                              .email!
+                              .contains('admin') ||
+                          GetStorageHelper.getProfileData()
+                              .email!
+                              .contains('store')) {
                         await Get.offNamedUntil<void>(
                           RoutesName.attendanceCameraScreen,
                           (route) => false,

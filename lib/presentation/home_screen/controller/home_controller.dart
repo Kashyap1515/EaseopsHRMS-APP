@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   Rx<Status> homeStatus = Status.loading.obs;
+  Rx<Status> homeDetailStatus = Status.completed.obs;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final NetworkApiService _apiService = NetworkApiService();
   Rx<DateTime> startDateTime =
@@ -16,15 +17,10 @@ class HomeController extends GetxController {
       DateTime(DateTime.now().year, DateTime.now().month, 1).obs;
   Rx<DateTime> endDateTime =
       DateTime(DateTime.now().year, DateTime.now().month, 0).obs;
-  RxString lastMonthName = DateFormat('MMMM')
-      .format(DateTime(DateTime.now().year, DateTime.now().month - 1, 1))
-      .obs;
-  RxString currentMonthName = DateFormat('MMMM')
-      .format(DateTime(DateTime.now().year, DateTime.now().month, 1))
-      .obs;
   RxList<String> checkinTimes = <String>[].obs;
   RxList<String> checkoutTimes = <String>[].obs;
 
+  RxBool isCurrentMonth = true.obs;
   RxString currUserId = ''.obs;
   RxString lastMonthPresentCount = ''.obs;
   RxString lastMonthAbsentCount = ''.obs;
@@ -35,10 +31,14 @@ class HomeController extends GetxController {
   RxString thisMonthLateCount = ''.obs;
   RxInt thisMonthHolidaysCount = 0.obs;
   RxString userLocalTimeZone = 'Asia/Kolkata'.obs;
-  List<AttendanceReportUserModel> lastMonthUserData =
-      <AttendanceReportUserModel>[];
-  List<AttendanceReportUserModel> thisMonthData = <AttendanceReportUserModel>[];
-  List<AttendanceReportUserModel> todayData = <AttendanceReportUserModel>[];
+  RxList<AttendanceReportUserModel> lastMonthUserData =
+      <AttendanceReportUserModel>[].obs;
+  RxList<AttendanceReportUserModel> thisMonthData =
+      <AttendanceReportUserModel>[].obs;
+  RxList<AttendanceList> incompleteSessionsList = <AttendanceList>[].obs;
+
+  RxList<AttendanceReportUserModel> todayData =
+      <AttendanceReportUserModel>[].obs;
 
   Future<void> getTodayData() async {
     final locationId = GetStorageHelper.getCurrentLocationData() != null
@@ -85,6 +85,10 @@ class HomeController extends GetxController {
     });
   }
 
+  String formatDateTime(DateTime dateTime) {
+    return DateFormat('dd MMMM yyyy').format(dateTime);
+  }
+
   String formatDate(DateTime dateTime) {
     return DateFormat('hh:mm a').format(dateTime);
   }
@@ -119,6 +123,32 @@ class HomeController extends GetxController {
             now: startThisMonthDateTime.value,
           );
         }
+        final today = DateTime.now();
+        final todayStr = DateFormat('yyyy-MM-dd').format(today);
+
+        for (var user in thisMonthData) {
+          final attendanceList = user.attendanceList ?? [];
+
+          for (var attendance in attendanceList) {
+            if (attendance.markedAt == null) {
+              continue;
+            }
+
+            final markedAtDate = DateFormat('yyyy-MM-dd')
+                .format(DateTime.parse(attendance.markedAt!.toIso8601String()));
+
+            if (markedAtDate == todayStr) {
+              continue;
+            }
+
+            if ((attendance.sessionList ?? [])
+                .any((session) => session.checkoutAt == null)) {
+              incompleteSessionsList.add(attendance);
+            }
+          }
+        }
+
+        log(jsonEncode(incompleteSessionsList));
       } else {
         homeStatus.value = Status.completed;
       }

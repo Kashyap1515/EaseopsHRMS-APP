@@ -25,7 +25,6 @@ class HomeScreen extends GetView<HomeController> {
               automaticallyImplyLeading: false,
               elevation: 0,
               backgroundColor: AppColors.primaryColor,
-              // imageIcon1: AppIcons.iconNotification,
               callback: () {
                 controller.scaffoldKey.currentState?.openDrawer();
               },
@@ -77,18 +76,22 @@ class HomeScreen extends GetView<HomeController> {
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
-                                          Container(
-                                            decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: AppColors.kcSuccessColor,
+                                          if (controller
+                                                  .checkinTimes.isNotEmpty &&
+                                              !controller.checkinTimes
+                                                  .contains('-'))
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppColors.kcSuccessColor,
+                                              ),
+                                              padding: all3,
+                                              child: const Icon(
+                                                Icons.done,
+                                                size: 18,
+                                                color: AppColors.kcWhiteColor,
+                                              ),
                                             ),
-                                            padding: all3,
-                                            child: const Icon(
-                                              Icons.done,
-                                              size: 18,
-                                              color: AppColors.kcWhiteColor,
-                                            ),
-                                          ),
                                         ],
                                       ),
                                       const SizedBox(
@@ -107,18 +110,18 @@ class HomeScreen extends GetView<HomeController> {
                                         }).toList(),
                                       ),
                                       sbh10,
-                                      CustomButton(
-                                        btnText: 'Checked In',
-                                        callback: () {},
-                                        btnHeight: 35,
-                                        bgColor: !controller.checkoutTimes
-                                                .contains('-')
-                                            ? AppColors.primaryColor
-                                            : AppColors.kcGreyColor,
-                                        isOutLinedButton: controller
-                                            .checkoutTimes
-                                            .contains('-'),
-                                      ),
+                                      // CustomButton(
+                                      //   btnText: 'Checked In',
+                                      //   callback: () {},
+                                      //   btnHeight: 35,
+                                      //   bgColor: !controller.checkoutTimes
+                                      //           .contains('-')
+                                      //       ? AppColors.primaryColor
+                                      //       : AppColors.kcGreyColor,
+                                      //   isOutLinedButton: controller
+                                      //       .checkoutTimes
+                                      //       .contains('-'),
+                                      // ),
                                     ],
                                   ),
                                 ),
@@ -136,15 +139,31 @@ class HomeScreen extends GetView<HomeController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Row(
+                                      Row(
                                         children: [
-                                          Expanded(
+                                          const Expanded(
                                             child: CustomText(
                                               title: 'Punch Out',
                                               color: AppColors.kcGreyColor,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
+                                          if (controller
+                                                  .checkoutTimes.isNotEmpty &&
+                                              !controller.checkoutTimes
+                                                  .contains('-'))
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppColors.kcSuccessColor,
+                                              ),
+                                              padding: all3,
+                                              child: const Icon(
+                                                Icons.done,
+                                                size: 18,
+                                                color: AppColors.kcWhiteColor,
+                                              ),
+                                            ),
                                         ],
                                       ),
                                       const SizedBox(
@@ -164,18 +183,18 @@ class HomeScreen extends GetView<HomeController> {
                                       ),
                                       sbh5,
                                       sbh10,
-                                      CustomButton(
-                                        btnText: 'Punch Out',
-                                        callback: () {},
-                                        btnHeight: 35,
-                                        bgColor: !controller.checkinTimes
-                                                .contains('-')
-                                            ? AppColors.primaryColor
-                                            : AppColors.kcGreyColor,
-                                        isOutLinedButton: !controller
-                                            .checkinTimes
-                                            .contains('-'),
-                                      ),
+                                      // CustomButton(
+                                      //   btnText: 'Punch Out',
+                                      //   callback: () {},
+                                      //   btnHeight: 35,
+                                      //   bgColor: !controller.checkinTimes
+                                      //           .contains('-')
+                                      //       ? AppColors.primaryColor
+                                      //       : AppColors.kcGreyColor,
+                                      //   isOutLinedButton: !controller
+                                      //       .checkinTimes
+                                      //       .contains('-'),
+                                      // ),
                                     ],
                                   ),
                                 ),
@@ -202,39 +221,74 @@ class HomeScreen extends GetView<HomeController> {
                             ],
                           ),
                           sbh10,
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.kcWhiteColor,
-                              borderRadius: br8,
-                            ),
-                            padding: all10,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CustomText(
-                                          title: '10:00 AM - 06:00 PM',
-                                          fontSize: fontLarge,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        const CustomText(
-                                          title: '15th Dec Missing Punch In',
-                                          color: AppColors.kcGreyColor,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ],
+                          if (controller.incompleteSessionsList.isNotEmpty)
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  (controller.incompleteSessionsList).length,
+                              itemBuilder: (context, index) {
+                                var missedData =
+                                    (controller.incompleteSessionsList)[index];
+                                if (missedData.markedAt == null) {
+                                  return const SizedBox();
+                                }
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.kcWhiteColor,
+                                    borderRadius: br8,
+                                  ),
+                                  padding: all10,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            title:
+                                                'Missed Punch-out on ${controller.formatDateTime(
+                                              convertDateTimeLocalTimeZone(
+                                                missedData.markedAt!,
+                                              ),
+                                            )}',
+                                            fontSize: fontTempLarge,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          CustomText(
+                                            title:
+                                                'Kindly contact your manager for assistance.',
+                                            color: AppColors.kcGreyColor,
+                                            fontSize: fontSmall,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          else
+                            Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.kcWhiteColor,
+                                borderRadius: br8,
+                              ),
+                              padding: all16,
+                              child: const Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomText(
+                                      title: 'No missing punch-outs found!',
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
+
                           sbh20,
                           // Row(
                           //   children: [
@@ -275,11 +329,29 @@ class HomeScreen extends GetView<HomeController> {
               color: AppColors.primaryColor,
             ),
             sbw10,
-            CustomText(
-              title:
-                  '${isCurrentMonth ? controller.currentMonthName.value : controller.lastMonthName.value} Attendance',
-              fontSize: fontTempLarge,
+            Expanded(
+              child: CustomText(
+                title: '${isCurrentMonth ? 'This' : 'Last'} Month Attendance',
+                fontSize: fontTempLarge,
+              ),
             ),
+            InkWell(
+              onTap: () {
+                Get.toNamed(
+                  RoutesName.homeDetailScreen,
+                  arguments: {
+                    'is_current_month': isCurrentMonth,
+                  },
+                );
+              },
+              child: CustomText(
+                title: 'View More',
+                fontSize: fontSmallMedium,
+                color: AppColors.primaryColor,
+                textDecoration: TextDecoration.underline,
+              ),
+            ),
+            if (!isCurrentMonth) sbw10,
           ],
         ),
         sbh10,

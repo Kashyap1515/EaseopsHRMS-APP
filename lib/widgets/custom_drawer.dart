@@ -16,22 +16,29 @@ Drawer customDrawer() {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    customTile(
-                      title: 'Home',
-                      icon: AppIcons.iconHome,
-                      onTapCallBack: () async {
-                        Get.back<void>();
-                        Get.offNamed(RoutesName.homeScreen);
-                      },
-                    ),
-                    customTile(
-                      title: 'Attendance',
-                      icon: AppIcons.iconAttendanceIcon,
-                      onTapCallBack: () async {
-                        Get.back<void>();
-                        Get.offNamed(RoutesName.attendanceCameraScreen);
-                      },
-                    ),
+                    if (GetStorageHelper.getProfileData()
+                            .email!
+                            .contains('admin') ||
+                        GetStorageHelper.getProfileData()
+                            .email!
+                            .contains('store'))
+                      customTile(
+                        title: 'Attendance',
+                        icon: AppIcons.iconAttendanceIcon,
+                        onTapCallBack: () async {
+                          Get.back<void>();
+                          Get.offNamed(RoutesName.attendanceCameraScreen);
+                        },
+                      )
+                    else
+                      customTile(
+                        title: 'Home',
+                        icon: AppIcons.iconHome,
+                        onTapCallBack: () async {
+                          Get.back<void>();
+                          Get.offNamed(RoutesName.homeScreen);
+                        },
+                      ),
                     customTile(
                       title: 'Settings',
                       icon: AppIcons.iconSetting,

@@ -35,7 +35,10 @@ class PunchInOutScreen extends GetView<AttendanceController> {
               imageIcon: AppIcons.iconArrowBack,
               actions: [
                 CustomPopupMenu(
-                  icon: const Icon(Icons.info),
+                  icon: const Icon(
+                    Icons.info,
+                    color: AppColors.kcWhiteColor,
+                  ),
                   onSelected: (value) {
                     if (value == AppStrings.strUpdateProfile) {
                       controller.isOnboardUser.value = true;
@@ -101,9 +104,6 @@ class PunchInOutScreen extends GetView<AttendanceController> {
                         ),
                       sbh14,
                       if (!controller.isOnboardUser.value) customLocationCard(),
-                      // if (!controller.isOnboardUser.value) sbh14,
-                      // if (!controller.isOnboardUser.value)
-                      //   customPunchTypeCard(),
                     ],
                   ),
                 ),
@@ -265,98 +265,4 @@ class PunchInOutScreen extends GetView<AttendanceController> {
       ),
     );
   }
-
-// Widget customPunchTypeCard() {
-//   return Container(
-//     margin: all3,
-//     padding: all12,
-//     width: double.infinity,
-//     decoration: boxDecorationWithShadow,
-//     child: Column(
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.only(left: 8),
-//           child: Align(
-//             alignment: Alignment.centerLeft,
-//             child: CustomText(
-//               title: 'Select ',
-//               fontSize: fontTempLarge,
-//               fontWeight: FontWeight.w500,
-//             ),
-//           ),
-//         ),
-//         Row(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             Expanded(
-//               child: Row(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Radio<String>(
-//                     value: 'attendance_checkin',
-//                     groupValue: controller.selectedMarkType.value,
-//                     onChanged: (String? value) {
-//                       controller.selectedMarkType.value = value ?? '';
-//                     },
-//                   ),
-//                   const CustomText(title: 'Punch In'),
-//                 ],
-//               ),
-//             ),
-//             Expanded(
-//               child: Row(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Radio<String>(
-//                     value: 'attendance_checkout',
-//                     groupValue: controller.selectedMarkType.value,
-//                     onChanged: (String? value) {
-//                       controller.selectedMarkType.value = value ?? '';
-//                     },
-//                   ),
-//                   const CustomText(title: 'Punch Out'),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//         Row(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             Expanded(
-//               child: Row(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Radio<String>(
-//                     value: 'break_checkin',
-//                     groupValue: controller.selectedMarkType.value,
-//                     onChanged: (String? value) {
-//                       controller.selectedMarkType.value = value ?? '';
-//                     },
-//                   ),
-//                   const CustomText(title: 'Start Break'),
-//                 ],
-//               ),
-//             ),
-//             Expanded(
-//               child: Row(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Radio<String>(
-//                     value: 'break_checkout',
-//                     groupValue: controller.selectedMarkType.value,
-//                     onChanged: (String? value) {
-//                       controller.selectedMarkType.value = value ?? '';
-//                     },
-//                   ),
-//                   const CustomText(title: 'End Break'),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ],
-//     ),
-//   );
-// }
 }

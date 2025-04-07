@@ -8,10 +8,11 @@ class SplashController extends GetxController {
     Future.delayed(const Duration(milliseconds: 200), () async {
       if (GetStorageHelper.getUserData().token != null) {
         if (GetStorageHelper.getProfileData()
-            .userAccountsDetails!
-            .first
-            .privileges!
-            .contains('Superuser')) {
+            .email!
+            .contains('admin') ||
+            GetStorageHelper.getProfileData()
+                .email!
+                .contains('store')) {
           await Get.offNamedUntil<void>(
             RoutesName.attendanceCameraScreen,
             (route) => false,

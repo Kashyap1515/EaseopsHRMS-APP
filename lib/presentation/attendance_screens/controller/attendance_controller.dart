@@ -5,7 +5,6 @@ import 'package:easeops_hrms/app_export.dart';
 import 'package:easeops_hrms/main.dart';
 import 'package:easeops_hrms/presentation/attendance_screens/model/account_user_model.dart';
 import 'package:easeops_hrms/presentation/attendance_screens/model/image_upload_model.dart';
-import 'package:easeops_hrms/presentation/attendance_screens/repositories/attendance_repositories.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:uuid/uuid.dart';
@@ -15,8 +14,6 @@ class AttendanceController extends GetxController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final Rx<Status> attendanceStatus = Status.completed.obs;
   final Rx<Status> attendancePunchedStatus = Status.completed.obs;
-  final AttendanceRepository attendanceRepository = AttendanceRepository();
-  Rx<DateTime> selectedDate = DateTime.now().obs;
   File? imageFile;
   Rx<CameraController> cameraController = CameraController(
     cameras.firstWhere(
@@ -32,7 +29,6 @@ class AttendanceController extends GetxController {
   ).obs;
   final NetworkApiService _apiService = NetworkApiService();
 
-  RxBool isOnBreak = false.obs;
   RxBool isOnboardUser = false.obs;
   RxDouble userLat = 0.0.obs;
   RxDouble userLon = 0.0.obs;
@@ -44,13 +40,6 @@ class AttendanceController extends GetxController {
   RxList<Map<String, dynamic>> userListData = <Map<String, dynamic>>[].obs;
   RxString selectedUserId = ''.obs;
   RxString selectedUserName = ''.obs;
-
-  Future<void> setAutoFlash() async {
-    if (cameraController.value.value.flashMode == FlashMode.torch ||
-        cameraController.value.value.flashMode == FlashMode.auto) {
-      await cameraController.value.setFlashMode(FlashMode.auto);
-    }
-  }
 
   Future<void> setInitialData() async {
     final locationId = GetStorageHelper.getCurrentLocationData() != null
@@ -68,15 +57,19 @@ class AttendanceController extends GetxController {
           selectedUserId.value = '';
           final attendanceData =
               accountUserDataModelFromJson(jsonEncode(value));
+          var currLocId =
+              GetStorageHelper.getCurrentLocationData()?.locationId ?? '';
           for (final data in attendanceData) {
-            userListData.add({
-              'id': data.id,
-              'label':
-                  '${data.name ?? ''} (${data.email ?? data.phoneNumber ?? ''})',
-              'imagePath': data.displayPicture ?? '',
-            });
+            var locationIds = (data.locations ?? []).map((e) => e.id).toList();
+            if (locationIds.contains(currLocId)) {
+              userListData.add({
+                'id': data.id,
+                'label':
+                    '${data.name ?? ''} (${data.email ?? data.phoneNumber ?? ''})',
+                'imagePath': data.displayPicture ?? '',
+              });
+            }
           }
-          print(userListData);
           attendanceStatus.value = Status.completed;
         } else {
           attendanceStatus.value = Status.completed;
@@ -290,7 +283,7 @@ class AttendanceController extends GetxController {
         Get.back<void>();
         customSnackBar(
           title: 'Success',
-          message: '${AppStrings.strMarkAttendance} Successfully.',
+          message: 'You have Successfully upload your image.',
         );
       } else {
         attendancePunchedStatus.value = Status.completed;
@@ -363,6 +356,5 @@ class AttendanceController extends GetxController {
     imageFiles.clear();
     createPunchImageList.clear();
     isOnboardUser.value = false;
-    selectedDate.value = DateTime.now();
   }
 }
