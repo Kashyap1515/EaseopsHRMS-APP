@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "492708648319",
+    "project_id": "easeops-40c4d",
+    "storage_bucket": "easeops-40c4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492708648319:android:30dc1213ff944ad719364a",
+        "android_client_info": {
+          "package_name": "com.easeops.easeops"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF9QBOPwN9ZLgP1lKQrPOwWroT1ecGmtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492708648319:android:7ab80eba0ec06ffa19364a",
+        "android_client_info": {
+          "package_name": "com.easeops.easeops.staging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF9QBOPwN9ZLgP1lKQrPOwWroT1ecGmtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
